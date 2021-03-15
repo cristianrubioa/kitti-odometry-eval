@@ -232,11 +232,11 @@ void plotPathPlot (string dir,vector<int32_t> &roi,int32_t idx) {
   }
   
   // create pdf and crop
-  sprintf(command,"cd %s; ps2pdf %02d.eps %02d_large.pdf",dir.c_str(),idx,idx);
+  //sprintf(command,"cd %s; ps2pdf %02d.eps %02d_large.pdf",dir.c_str(),idx,idx);
   system(command);
-  sprintf(command,"cd %s; pdfcrop %02d_large.pdf %02d.pdf",dir.c_str(),idx,idx);
+  //sprintf(command,"cd %s; pdfcrop %02d_large.pdf %02d.pdf",dir.c_str(),idx,idx);
   system(command);
-  sprintf(command,"cd %s; rm %02d_large.pdf",dir.c_str(),idx);
+  //sprintf(command,"cd %s; rm %02d_large.pdf",dir.c_str(),idx);
   system(command);
 }
 
@@ -399,7 +399,7 @@ void saveStats (vector<errors> err,string dir) {
  
   // save errors
   float num = err.size();
-  fprintf(fp,"%f %f\n",t_err/num,r_err/num);
+  fprintf(fp,"Average Translation Error: %f %\nAverage Rotation Error: %f deg/m \n",t_err/num,r_err/num);
   
   // close file
   fclose(fp);
@@ -408,22 +408,22 @@ void saveStats (vector<errors> err,string dir) {
 bool eval (string result_sha,Mail* mail) {
 
   // ground truth and result directories
-  string gt_dir         = "data/odometry/poses";
-  string result_dir     = "results/" + result_sha;
+  string gt_dir         = "../ground_truth/poses";
+  string result_dir     = "../results/" + result_sha;
   string error_dir      = result_dir + "/errors";
   string plot_path_dir  = result_dir + "/plot_path";
   string plot_error_dir = result_dir + "/plot_error";
 
   // create output directories
-  system(("mkdir " + error_dir).c_str());
-  system(("mkdir " + plot_path_dir).c_str());
-  system(("mkdir " + plot_error_dir).c_str());
+  system(("mkdir -p -- " + error_dir).c_str());
+  system(("mkdir -p -- " + plot_path_dir).c_str());
+  system(("mkdir -p -- " + plot_error_dir).c_str());
   
   // total errors
   vector<errors> total_err;
 
   // for all sequences do
-  for (int32_t i=11; i<22; i++) {
+  for (int32_t i=5; i<6; i++) { //test 05 sequence
    
     // file name
     char file_name[256];
@@ -497,8 +497,8 @@ int32_t main (int32_t argc,char *argv[]) {
 
   // run evaluation
   bool success = eval(result_sha,mail);
-  if (argc==4) mail->finalize(success,"odometry",result_sha,argv[2]);
-  else         mail->finalize(success,"odometry",result_sha);
+  //if (argc==4) mail->finalize(success,"odometry",result_sha,argv[2]);
+  //else         mail->finalize(success,"odometry",result_sha);
 
   // send mail and exit
   delete mail;
