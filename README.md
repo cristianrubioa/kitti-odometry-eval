@@ -11,25 +11,25 @@ To evaluate on the ground truth poses that we possess changed line [426](https:/
 ``` for (int32_t i=0; i<11; i++) {```
 to:
 ```
-# PA pose available
+# PA poses available
 for (int32_t i=PA; i<PA+1; i++) {
 
-# Example -> pose available "05.txt"
-for (int32_t i=5; i<6; i++) {
+# Example -> poses available "05.txt, 06.txt"
+for (int32_t i=5; i<7; i++) {
 ```
 
 ## Usage
 To evaluate on the ground truth poses that possess. The compiled program (evaluate_odometry) can then be run:
 ```
-/evaluate_odometry RESULT_PATH
+/evaluate_odometry <result_sha>
 
-# RESULT_PATH contains the pose text file, 
-# which should be named as 00.txt, 01.txt, ...
-# inside the data folder data
+# result_sha is the sub-directory containing the estimated poses
+# poses must be in relative directory "results/<result_sha>/data"
+# with each sequence as "XX.txt" inside the data folder
 
-RESULT_PATH
+result_sha
 ├── data
-  ├──00.txt
+     ├──00.txt
 ├── ...
 └── ...
 
@@ -41,26 +41,26 @@ RESULT_PATH
 
 ```
 results
-├──00
-  ├──data
-    ├──00.txt
-  ├──errors
-    ├──00.txt
-  ├──plot_error
-    ├──05_rl.pdf
-    ├──05_rs.pdf
-    ├──05_tl.pdf
-    ├──05_ts.pdf
-    ├──avg_rl.pdf
-    ├──avg_rs.pdf
-    ├──avg_tl.pdf
-    ├──avg_ts.pdf
-    ...
-  ├──plot path
-    ├──00.eps
-    ├──00.gp
-    ├──00.pdf
-    ├──00.png
+├──00 // * example <result_sha> 
+    ├──data
+        ├──00.txt
+    ├──errors                   
+        ├──00.txt
+    ├──plot_error               
+        ├──<pre_sub>.<format>      
+           // 1. <pre_sub> 
+           // 1.1 pre [avg, num_sequence] 
+           // 1.2 sub [rl, rs, tl, ts] 
+           //      1.2.1 (r:rotation, t:translation, s:speed, l:path length)
+           // 2. <format> [pdf, png, eps, gp]
+           // 3. * example: avg_rl.pdf ... 00_rl.pdf ...                        
+    ├──plot path                                      
+        ├──00.eps
+        ├──00.gp
+        ├──00.pdf
+        ├──00.png
+        ├──00.txt
+    stats.txt                  
 ```  
 
 
